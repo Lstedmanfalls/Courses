@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Courses</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <div id="wrapper">
+            <h1>Add a New Course</h1>            
+            <form action="courses/create_course" method="POST">
+                {% csrf_token %}
+                <div id="name">
+                    <label for="name">Name:</label>
+                    <input name="name" type="text">
+                </div>
+                <div id="description">
+                    <label for="description">Description:</label>
+                    <textarea name="description"></textarea>
+                </div>
+                <button id="add" type="submit">Add</button>
+            </form>
+            {% if messages %}
+            <ul id="messages" class="messages">    
+            {% for message in messages %}    
+            <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>    
+            {% endfor %}
+            </ul>
+            {% endif %}
+        <div id="courses">
+            <h1>Courses</h1>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Course Name</th>
+                        <th>Description</th>
+                        <th>Date Added</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                        {% for course in all_the_courses %}
+                    <tr>
+                        <td>{{course.name}}</td>
+                        <td>{{course.description}}</td>
+                        <td>{{course.created_at}}</td>
+                        <td>
+                            <a role="button" href="courses/{{course.id}}">Remove</a>
+                        </td>
+                    </tr>
+                        {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
